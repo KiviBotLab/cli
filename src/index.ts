@@ -10,7 +10,7 @@ const pkg = require(path.join(__dirname, '../package.json'))
 const args = minimist(process.argv.slice(2))
 const inputCmd: string | undefined = args._[0]
 
-const Head = `KiviBot CLI v${pkg.version || '未知'}\n\n`
+const Head = `KiviBot CLI v${pkg.version ?? '未知'}\n\n`
 const HelpHead = `用法：kivi <命令> [选项]\n\n命令：`
 
 const cli = async () => {
