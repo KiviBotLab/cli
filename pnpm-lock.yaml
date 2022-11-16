@@ -4,6 +4,7 @@ specifiers:
   '@types/fs-extra': ^9.0.13
   '@types/minimist': ^1.2.2
   '@types/node': ^18.11.9
+  '@types/prompts': ^2.4.1
   '@vikiboss/prettier-config': ^0.2.1
   concurrently: ^7.5.0
   eslint: ^8.27.0
@@ -15,22 +16,25 @@ specifiers:
   minimist: ^1.2.7
   ora: ^6.1.2
   prettier: ^2.7.1
+  prompts: ^2.4.2
   rimraf: ^3.0.2
   tsc-alias: ^1.7.1
   typescript: ^4.9.3
 
 dependencies:
-  '@vikiboss/prettier-config': 0.2.1
   fast-glob: 3.2.12
   fs-extra: 10.1.0
   minimist: 1.2.7
   ora: 6.1.2
+  prompts: 2.4.2
   rimraf: 3.0.2
 
 devDependencies:
   '@types/fs-extra': 9.0.13
   '@types/minimist': 1.2.2
   '@types/node': 18.11.9
+  '@types/prompts': 2.4.1
+  '@vikiboss/prettier-config': 0.2.1
   concurrently: 7.5.0
   eslint: 8.27.0
   eslint-config-prettier: 8.5.0_eslint@8.27.0
@@ -117,6 +121,12 @@ packages:
 
   /@types/node/18.11.9:
     resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
+    dev: true
+
+  /@types/prompts/2.4.1:
+    resolution: {integrity: sha512-1Mqzhzi9W5KlooNE4o0JwSXGUDeQXKldbGn9NO4tpxwZbHXYd+WcKpCksG2lbhH7U9I9LigfsdVsP2QAY0lNPA==}
+    dependencies:
+      '@types/node': 18.11.9
     dev: true
 
   /@types/semver/7.3.13:
@@ -254,7 +264,7 @@ packages:
 
   /@vikiboss/prettier-config/0.2.1:
     resolution: {integrity: sha512-t23xbhtEU/Lz0z3tU0ne7L6pQEHnqkq2YTEv+/W53Ncvzcc1sfSH4hXilENCem8clkzevpCuO9tN9DrOJPR3OA==}
-    dev: false
+    dev: true
 
   /acorn-jsx/5.3.2_acorn@8.8.1:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -1346,6 +1356,11 @@ packages:
       graceful-fs: 4.2.10
     dev: false
 
+  /kleur/3.0.3:
+    resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
+    engines: {node: '>=6'}
+    dev: false
+
   /levn/0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -1577,6 +1592,14 @@ packages:
     hasBin: true
     dev: true
 
+  /prompts/2.4.2:
+    resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
+    engines: {node: '>= 6'}
+    dependencies:
+      kleur: 3.0.3
+      sisteransi: 1.0.5
+    dev: false
+
   /punycode/2.1.1:
     resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
     engines: {node: '>=6'}
@@ -1713,6 +1736,10 @@ packages:
 
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
+    dev: false
+
+  /sisteransi/1.0.5:
+    resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
     dev: false
 
   /slash/3.0.0:

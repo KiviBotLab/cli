@@ -20,7 +20,9 @@ const cli = async () => {
     console.log(Head + HelpHead + helps.join(''))
   } else {
     try {
-      cmds[inputCmd as Cmd](args)
+      const res = cmds[inputCmd as Cmd](args)
+
+      if (res instanceof Promise) await res
     } catch {
       console.log(colors.red('Error Occured !'))
     }
