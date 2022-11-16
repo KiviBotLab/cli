@@ -1,6 +1,6 @@
 {
   "name": "kivibot",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Command line tool for KiviBot. WIP.",
   "bin": {
     "kivi": "bin/kivi"
@@ -18,11 +18,13 @@
     "kivibot"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "rimraf lib -f && npm run build && npm publish"
   },
   "author": "Viki <hi@viki.moe> (https://github.com/vikiboss)",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
+    "rimraf": "^3.0.2",
     "typescript": "^4.9.3"
   }
 }
