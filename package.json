@@ -1,0 +1,28 @@
+{
+  "name": "kivibot",
+  "version": "0.0.3",
+  "description": "Command line tool for KiviBot. WIP.",
+  "bin": {
+    "kivi": "bin/kivi"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [
+    "bot",
+    "cli",
+    "oicq",
+    "kivibot"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Viki <hi@viki.moe> (https://github.com/vikiboss)",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^4.9.3"
+  }
+}
