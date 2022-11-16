@@ -1,6 +1,6 @@
 {
   "name": "kivibot",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Command line tool for KiviBot. WIP.",
   "repository": "KiviBotLab/cli",
   "homepage": "https://github.com/KiviBotLab/cli#readme",
