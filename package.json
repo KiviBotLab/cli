@@ -8,6 +8,7 @@
     "kivi": "bin/kivi",
     "kivibot": "bin/kivi"
   },
+  "prettier": "@vikiboss/prettier-config",
   "files": [
     "bin",
     "lib",
@@ -21,17 +22,31 @@
     "kivibot"
   ],
   "scripts": {
-    "build": "rimraf lib && tsc",
+    "dev": "concurrently \"tsc -w\" \"tsc-alias -w\"",
+    "build": "rimraf lib && tsc && tsc-alias",
+    "lint": "eslint . --ext .ts,js",
+    "lint:fix": "eslint . --ext .ts,js --fix",
     "release": "pnpm run build && pnpm publish"
   },
   "author": "Viki <hi@viki.moe> (https://github.com/vikiboss)",
   "license": "MIT",
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
     "@types/minimist": "^1.2.2",
     "@types/node": "^18.11.9",
+    "concurrently": "^7.5.0",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-viki-ts": "^0.1.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "tsc-alias": "^1.7.1",
     "typescript": "^4.9.3"
   },
   "dependencies": {
+    "@vikiboss/prettier-config": "^0.2.1",
+    "fast-glob": "^3.2.12",
+    "fs-extra": "^10.1.0",
     "minimist": "^1.2.7",
     "ora": "^6.1.2",
     "rimraf": "^3.0.2"

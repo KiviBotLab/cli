@@ -1,0 +1,3 @@
+{
+  "extends": ["viki-ts", "plugin:prettier/recommended"]
+}
