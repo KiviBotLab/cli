@@ -1,6 +1,6 @@
 {
   "name": "kivibot",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Command line tool for KiviBot. WIP.",
   "repository": "KiviBotLab/cli",
   "homepage": "https://github.com/KiviBotLab/cli#readme",
@@ -21,8 +21,8 @@
     "kivibot"
   ],
   "scripts": {
-    "build": "tsc",
-    "publish": "rimraf lib && npm run build && npm publish"
+    "build": "rimraf lib && tsc",
+    "release": "pnpm run build && pnpm publish"
   },
   "author": "Viki <hi@viki.moe> (https://github.com/vikiboss)",
   "license": "MIT",
