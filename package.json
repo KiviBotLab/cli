@@ -27,7 +27,13 @@
   "author": "Viki <hi@viki.moe> (https://github.com/vikiboss)",
   "license": "MIT",
   "devDependencies": {
-    "rimraf": "^3.0.2",
+    "@types/minimist": "^1.2.2",
+    "@types/node": "^18.11.9",
     "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "minimist": "^1.2.7",
+    "ora": "^6.1.2",
+    "rimraf": "^3.0.2"
   }
 }

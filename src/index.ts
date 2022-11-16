@@ -1,3 +1,3 @@
-import { sayHi } from './sayHi'
+import minimist from 'minimist'
 
-sayHi()
+console.log(minimist(process.argv.slice(2)))
