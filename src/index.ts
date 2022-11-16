@@ -1,4 +1,3 @@
-import { sayHi } from './demo'
+import { sayHi } from './sayHi'
 
-console.log('Hello Kivi')
 sayHi()
