@@ -93,4 +93,4 @@ export const create = async (args: ParsedArgs) => {
 }
 
 create.help = `
-      create <?name> 新建插件模板`
+      create\t新建插件模板`

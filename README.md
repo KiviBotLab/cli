@@ -5,4 +5,15 @@
 [![node engine](https://img.shields.io/node/v/kivibot/latest.svg)](https://nodejs.org)
 [![discord](https://img.shields.io/static/v1?label=chat&message=on%20discord&color=7289da&logo=discord)](https://discord.gg/RegGQD3Fu6)
 
-kiviBot 命令行工具。 Command line tool for KiviBot. 
+Command line tool for KiviBot. `KiviBot` 命令行工具。
+
+## Usage
+
+```shell
+npm i -g kivibot --registry=https://registry.npmmirror.com
+
+
+mkdir bot && cd bot
+
+kivi init --start
+```

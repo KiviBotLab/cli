@@ -193,7 +193,7 @@ export async function init(args: ParsedArgs) {
 }
 
 init.help = `
-      init\t初始化框架，引导生成账号配置文件（ --install 同时安装依赖 --start 同时启动框架 --force 覆盖当前配置）`
+      init\t初始化框架，引导生成账号配置文件`
 
 function writeKiviConf(conf: Record<string, any>) {
   try {

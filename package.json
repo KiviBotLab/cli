@@ -1,7 +1,7 @@
 {
   "name": "kivibot",
   "version": "0.1.0",
-  "description": "Command line tool for KiviBot. WIP.",
+  "description": "Command line tool for KiviBot.",
   "repository": "KiviBotLab/cli",
   "homepage": "https://github.com/KiviBotLab/cli#readme",
   "bin": {
@@ -52,6 +52,7 @@
   "dependencies": {
     "fast-glob": "^3.2.12",
     "fs-extra": "^10.1.0",
+    "got": "^11",
     "minimist": "^1.2.7",
     "ora": "^5",
     "prompts": "^2.4.2",

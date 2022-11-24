@@ -15,7 +15,7 @@ export async function installDependencies(_deps: string | string[] = []) {
   const promiseExec = promisify(exec)
   const modules = ensureArray(_deps)
 
-  const cmd = `npm i ${modules.join(' ')} --registry=https://registry.npmmirror.com`
+  const cmd = `npm i ${modules.join(' ')} --registry=https://inpm.deno.dev`
   const mds = modules.map((mod) => colors.cyan(mod)).join(', ')
 
   loading.start(`正在安装${mds ? `: ${mds}` : ''}`)
@@ -23,7 +23,7 @@ export async function installDependencies(_deps: string | string[] = []) {
   const { stderr } = await promiseExec(cmd)
 
   if (stderr) {
-    if (/npm ERR/gi.test(stderr)) {
+    if (/npm ERR/i.test(String(stderr))) {
       loading.fail(`${`${mds} `}安装过程出现问题，npm 输出如下：`)
       console.log(stderr)
       loading.succeed(`${` ${mds} `}安装失败`)

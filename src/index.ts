@@ -15,13 +15,11 @@ const Head = `KiviBot CLI v${pkg.version ?? '未知'}\n\n`
 const HelpHead = `用法：kivi <命令> [选项]\n\n命令：`
 
 export const exitHandler = () => {
-  process.stdout.write(colors.yellow('已退出 KiviBot CLI'))
+  process.stdout.write(colors.yellow('\n已退出 KiviBot CLI'))
   process.exit(0)
 }
 
 const cli = async () => {
-  versionCheck()
-
   /** 捕获 Ctrl C 中断退出 */
   process.on('SIGINT', exitHandler)
 
@@ -32,6 +30,8 @@ const cli = async () => {
   } else {
     try {
       args._.shift()
+
+      versionCheck()
 
       const res = cmds[inputCmd as Cmd](args)
 
