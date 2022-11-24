@@ -18,22 +18,25 @@ export async function installDependencies(_deps: string | string[] = []) {
   const cmd = `npm i ${modules.join(' ')} --registry=https://registry.npmmirror.com`
   const mds = modules.map((mod) => colors.cyan(mod)).join(', ')
 
-  loading.start(`正在安装 node 依赖${mds ? `: ${mds}` : ''}`)
+  loading.start(`正在安装${mds ? `: ${mds}` : ''}`)
 
   const { stderr } = await promiseExec(cmd)
 
   if (stderr) {
-    loading.fail(`${`${mds} `}安装过程出现问题，npm 输出如下：`)
-    console.log(stderr)
-    return false
-  } else {
-    loading.succeed(`node 依赖${` ${mds} `}安装完成`)
-    return true
+    if (/npm ERR/gi.test(stderr)) {
+      loading.fail(`${`${mds} `}安装过程出现问题，npm 输出如下：`)
+      console.log(stderr)
+      loading.succeed(`${` ${mds} `}安装失败`)
+      return false
+    }
   }
+
+  loading.succeed(`${` ${mds} `}安装完成`)
+  return true
 }
 
 export async function install(args: ParsedArgs) {
-  const modules = [...args._, ...(args.only ? [] : kiviDeps)]
+  const modules = args._.length ? args._ : kiviDeps
   await installDependencies(modules)
 }
 

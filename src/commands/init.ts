@@ -2,15 +2,15 @@ import fs, { writeFileSync } from 'fs-extra'
 import prompts from 'prompts'
 
 import { AppPath, ConfPath } from '@/path'
+import { base64encode } from '@/utils/base64'
 import { colors } from '@/utils/colors'
+import { exitHandler } from '..'
 import { kiviDeps, installDependencies } from './install'
 import { notice } from '@/utils/notice'
+import { start } from './start'
 
 import type { PromptObject } from 'prompts'
 import type { ParsedArgs } from 'minimist'
-import { start } from './start'
-import { base64encode } from '@/utils/base64'
-import { exitHandler } from '..'
 
 const DefaultNoticeConfig = {
   enable: true,

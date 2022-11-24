@@ -14,7 +14,7 @@ export async function deploy() {
 
   const account = getCurrentAccount()
 
-  const pm2 = spawn('pm2', ['start', 'app.js', '--name', account || 'KiviBot'], {
+  const pm2 = spawn('npx', ['pm2', 'start', 'app.js', '--name', account || 'KiviBot'], {
     stdio: 'inherit'
   })
 
