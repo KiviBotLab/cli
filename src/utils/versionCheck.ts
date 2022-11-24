@@ -14,5 +14,5 @@ export function versionCheck() {
     process.exit(0)
   }
 
-  notice.info(`运行环境 arch: ${arch} | node：${nodeVersionInfo} | npm：${npmVersionInfo}`)
+  notice.info(`arch: ${arch} | node：${nodeVersionInfo} | npm：${npmVersionInfo}`)
 }
