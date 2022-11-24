@@ -1,3 +1,9 @@
 {
-  "extends": ["viki-ts", "plugin:prettier/recommended"]
+  "env": {
+    "browser": false
+  },
+  "extends": ["viki-ts", "plugin:prettier/recommended"],
+  "rules": {
+    "camelcase": ["off"]
+  }
 }

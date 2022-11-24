@@ -1,5 +1,7 @@
 export { init } from './init'
+export { install } from './install'
 export { start } from './start'
+export { fix } from './fix'
 export { plugin } from './plugin'
 export { deploy } from './deploy'
 export { stop } from './stop'

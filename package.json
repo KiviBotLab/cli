@@ -1,6 +1,6 @@
 {
   "name": "kivibot",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Command line tool for KiviBot. WIP.",
   "repository": "KiviBotLab/cli",
   "homepage": "https://github.com/KiviBotLab/cli#readme",
@@ -22,15 +22,19 @@
     "kivibot"
   ],
   "scripts": {
-    "dev": "concurrently \"tsc -w\" \"tsc-alias -w\"",
+    "dev": "rimraf lib && tsc && concurrently \"tsc -w\" \"tsc-alias -w\"",
     "build": "rimraf lib && tsc && tsc-alias",
     "lint": "eslint . --ext .ts,js",
     "lint:fix": "eslint . --ext .ts,js --fix",
     "release": "pnpm run build && pnpm publish"
   },
+  "engines": {
+    "node": ">= v14"
+  },
   "author": "Viki <hi@viki.moe> (https://github.com/vikiboss)",
   "license": "MIT",
   "devDependencies": {
+    "@kivibot/core": "^0.1.2",
     "@types/fs-extra": "^9.0.13",
     "@types/minimist": "^1.2.2",
     "@types/node": "^18.11.9",
@@ -49,7 +53,7 @@
     "fast-glob": "^3.2.12",
     "fs-extra": "^10.1.0",
     "minimist": "^1.2.7",
-    "ora": "^6.1.2",
+    "ora": "^5",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2"
   }
