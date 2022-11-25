@@ -19,7 +19,7 @@ import { KiviPlugin } from '@kivibot/core'
 const plugin = new KiviPlugin('TS插件模板', '0.1.0')
 
 plugin.onMounted((bot, [mainAdmin, ...admins]) => {
-  bot.sendPrivateMsg(mainAdmin, plugin.name + '插件被禁用')
+  bot.sendPrivateMsg(mainAdmin, plugin.name + '插件被启用')
 
   plugin.onCmd('Hello', (e, args) => e.reply('World'))
 
