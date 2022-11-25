@@ -5,7 +5,7 @@ import ora from 'ora'
 
 import { getCliVersion } from '@/utils/versionCheck'
 import { colors } from '@/utils/colors'
-import { notice } from '@kivibot/core'
+import { notice } from '@/utils/notice'
 
 const loading = ora()
 
