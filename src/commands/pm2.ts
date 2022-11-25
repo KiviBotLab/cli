@@ -1,9 +1,10 @@
 import { spawn } from 'node:child_process'
 
-import { exitHandler } from '..'
-import { installDependencies } from './install'
-import { getCurrentAccount } from '@/utils/getCurrentAccount'
 import { checkModule } from '@/utils/checkModule'
+import { CWD } from '@/path'
+import { exitHandler } from '..'
+import { getCurrentAccount } from '@/utils/getCurrentAccount'
+import { installDependencies } from './install'
 
 import type { ParsedArgs } from 'minimist'
 
@@ -21,10 +22,12 @@ export async function deploy(args: ParsedArgs) {
     pm2Args.push('-f')
   }
 
-  const pm2 = spawn('npx', pm2Args, { stdio: 'inherit' })
+  const pm2 = spawn('npx', pm2Args, { cwd: CWD, stdio: 'inherit' })
 
   pm2.stdout?.on('data', (data) => console.log(data.toString()))
   pm2.stderr?.on('data', (data) => console.error(data.toString()))
+
+  pm2.on('error', (err) => console.error(err))
 }
 
 deploy.help = `
@@ -44,10 +47,12 @@ export async function stop(args: ParsedArgs) {
     pm2Args.push('-f')
   }
 
-  const pm2 = spawn('npx', pm2Args, { stdio: 'inherit' })
+  const pm2 = spawn('npx', pm2Args, { cwd: CWD, stdio: 'inherit' })
 
   pm2.stdout?.on('data', (data) => console.log(data.toString()))
   pm2.stderr?.on('data', (data) => console.error(data.toString()))
+
+  pm2.on('error', (err) => console.error(err))
 }
 
 stop.help = `
@@ -67,10 +72,12 @@ export async function log(args: ParsedArgs) {
     pm2Args.push('-f')
   }
 
-  const pm2 = spawn('npx', pm2Args, { stdio: 'inherit' })
+  const pm2 = spawn('npx', pm2Args, { cwd: CWD, stdio: 'inherit' })
 
   pm2.stdout?.on('data', (data) => console.log(data.toString()))
   pm2.stderr?.on('data', (data) => console.error(data.toString()))
+
+  pm2.on('error', (err) => console.error(err))
 }
 
 log.help = `

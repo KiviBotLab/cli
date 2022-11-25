@@ -16,6 +16,8 @@ export async function start() {
 
   node.stdout?.on('data', (data) => console.log(data.toString()))
   node.stderr?.on('data', (data) => console.error(data.toString()))
+
+  node.on('error', (err) => console.error(err))
 }
 
 start.help = `

@@ -10,7 +10,7 @@ import { notice } from '@/utils/notice'
 const loading = ora()
 
 async function getLatestVersion(module: string) {
-  const api = `https://inpm.deno.dev/${module}`
+  const api = `https://registry.npmmirror.com/${module}`
   const accept = 'application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*'
 
   const data = (await got(api, { headers: { accept } }).json()) as any

@@ -8,7 +8,7 @@ plugin.onMounted((bot, [mainAdmin, ...admins]) => {
 
   plugin.onCmd('Hello', (e, args) => e.reply('World'))
 
-  plugin.on('message', (e) => e.reply(e.message))
+  plugin.on('message.private', (e) => e.reply(e.message))
 })
 
 plugin.onUnmounted((bot, [mainAdmin, ...admins]) => {
