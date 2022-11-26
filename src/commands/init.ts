@@ -112,7 +112,6 @@ const questions: PromptObject[] = [
     type: (login_mode) => {
       return login_mode === 'password' ? 'text' : null
     },
-    initial: '',
     message: '请输入 Bot 账号密码',
     style: 'password',
     validate: (password) => {
@@ -123,7 +122,7 @@ const questions: PromptObject[] = [
   {
     name: 'device_mode',
     type: (prev) => {
-      return ['qrcode', 'password'].includes(prev) ? null : 'select'
+      return prev === 'qrcode' ? null : 'select'
     },
     initial: 0,
     message: '请选择设备锁验证模式 (按 ↑/↓)',
@@ -155,6 +154,9 @@ export async function init(args: ParsedArgs) {
 
   const answer = await prompts(questions)
 
+  answer.password ??= ''
+  answer.device_mode ??= 'sms'
+
   if (!answer.login_mode || (answer.login_mode === 'password' && !answer.password)) {
     notice.warn('已退出 KiviBot CLI')
     process.exit(0)
@@ -163,14 +165,16 @@ export async function init(args: ParsedArgs) {
   const isOK = writeKiviConf({
     account: answer.account,
     login_mode: answer.login_mode,
-    device_mode: answer.device_mode ?? 'sms',
+    device_mode: answer.device_mode,
     message_mode: 'short',
-    password: base64encode(answer.password) ?? '',
+    password: base64encode(answer.password),
     log_level: typeof log_level === 'string' ? log_level : 'info',
     admins: answer.admins,
     plugins: [],
     notice: DefaultNoticeConfig,
-    oicq_config: {}
+    oicq_config: {
+      platform: answer.platform
+    }
   })
 
   writeFileSync(AppPath, "require('@kivibot/core').start()")
