@@ -35,7 +35,7 @@ export async function update() {
   loading.start(`正在更新...`)
 
   const promiseExec = promisify(exec)
-  const cmd = `npm up --registry=https://inpm.deno.dev`
+  const cmd = `npm up --registry=https://registry.npmmirror.com`
   const { stderr, stdout } = await promiseExec(cmd)
 
   if (stderr) {

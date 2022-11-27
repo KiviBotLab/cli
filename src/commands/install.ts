@@ -16,7 +16,7 @@ export async function installDependencies(_deps: string | string[] = []) {
   const promiseExec = promisify(exec)
   const modules = ensureArray(_deps)
 
-  const cmd = `npm i ${modules.join(' ')} --registry=https://inpm.deno.dev`
+  const cmd = `npm i ${modules.join(' ')} --registry=https://registry.npmmirror.com/`
   const mds = modules.map((mod) => colors.cyan(mod)).join(', ')
   const mdsStr = mds ? ` ${mds} ` : ''
 
