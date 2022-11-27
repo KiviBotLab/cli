@@ -4,6 +4,7 @@ export const CWD = process.cwd()
 
 export const ConfPath = join(process.cwd(), 'kivi.json')
 export const AppPath = join(process.cwd(), 'app.js')
+export const PkgPath = join(process.cwd(), 'package.json')
 
 export const NodeModulesDir = join(process.cwd(), 'node_modules')
 export const DataDir = join(process.cwd(), 'data')

@@ -1,12 +1,13 @@
 import fs, { writeFileSync } from 'fs-extra'
 import prompts from 'prompts'
 
-import { AppPath, ConfPath } from '@/path'
+import { AppPath, ConfPath, PkgPath } from '@/path'
 import { base64encode } from '@/utils/base64'
 import { colors } from '@/utils/colors'
 import { exitHandler } from '..'
 import { kiviDeps, installDependencies } from './install'
 import { notice } from '@/utils/notice'
+import { pkg_template } from '@/templates/package-json'
 import { start } from './start'
 
 import type { PromptObject } from 'prompts'
@@ -178,6 +179,7 @@ export async function init(args: ParsedArgs) {
   })
 
   writeFileSync(AppPath, "require('@kivibot/core').start()")
+  writeFileSync(PkgPath, pkg_template)
 
   if (isOK) {
     notice.success(`已创建文件 ${colors.cyan(`kivi.json`)}， ${colors.cyan(`app.js`)}`)

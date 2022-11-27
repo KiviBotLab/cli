@@ -1,12 +1,11 @@
 import { spawn } from 'node:child_process'
-import { existsSync } from 'fs-extra'
 
 import { exitHandler } from '..'
 import { kiviDeps, installDependencies } from './install'
-import { NodeModulesDir } from '@/path'
+import { checkModule } from '@/utils/checkModule'
 
 export async function start() {
-  if (!existsSync(NodeModulesDir)) {
+  if (!checkModule('@kivibot/core')) {
     await installDependencies(kiviDeps)
   }
 
