@@ -37,5 +37,5 @@ plugin.onMounted((bot, admins) => {
   })
 })
 
-module.exports = plugin
+module.exports = { plugin }
 `.trim()

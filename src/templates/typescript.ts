@@ -29,5 +29,5 @@ plugin.onUnmounted((bot, [mainAdmin, ...admins]) => {
   bot.sendPrivateMsg(mainAdmin, plugin.name + '插件被禁用')
 })
 
-export default plugin
+export { plugin }
 `.trim()
