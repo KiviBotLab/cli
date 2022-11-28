@@ -31,7 +31,7 @@ export async function deploy(args: ParsedArgs) {
 }
 
 deploy.help = `
-      deploy\t使用 pm2 将框架进程部署在后台`
+      deploy\tdeploy KiviBot in background using pm2`
 
 export async function stop(args: ParsedArgs) {
   if (!checkModule('pm2')) {
@@ -56,7 +56,7 @@ export async function stop(args: ParsedArgs) {
 }
 
 stop.help = `
-      stop\t停止 pm2 后台的框架进程`
+      stop\tstop KiviBot background pm2 process`
 
 export async function log(args: ParsedArgs) {
   if (!checkModule('pm2')) {
@@ -81,4 +81,4 @@ export async function log(args: ParsedArgs) {
 }
 
 log.help = `
-      log\t查看 pm2 框架进程日志`
+      log\tview KiviBot background log using pm2`

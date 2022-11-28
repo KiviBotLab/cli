@@ -20,7 +20,7 @@ async function getLatestVersion(module: string) {
 }
 
 export async function update() {
-  loading.start(`正在检查更新 kiviBot CLI...`)
+  loading.start(`checking update for kiviBot CLI...`)
   const lv = await getLatestVersion('kivibot')
 
   if (lv !== getCliVersion()) {
@@ -28,11 +28,11 @@ export async function update() {
 
     const updateCmd = 'npm up -g kivibot --registry=https://registry.npmmirror.com'
 
-    notice.warn(colors.gray(`KiviBot ${lv} 已发布，请使用以下命令进行更新:`))
+    notice.warn(colors.gray(`KiviBot ${lv} has published, update it via:`))
     console.log(colors.cyan(updateCmd))
   }
 
-  loading.start(`正在更新...`)
+  loading.start(`updating...`)
 
   const promiseExec = promisify(exec)
   const cmd = `npm up --registry=https://registry.npmmirror.com`
@@ -40,21 +40,21 @@ export async function update() {
 
   if (stderr) {
     if (/npm ERR/i.test(String(stderr))) {
-      loading.fail(`更新过程出现问题，npm 输出如下：`)
+      loading.fail(`error occurred：`)
       console.log(stderr)
-      loading.succeed(`更新失败`)
+      loading.succeed(`update faild`)
       return false
     }
   }
 
   if (/up\sto\sdate/.test(stdout)) {
-    loading.succeed(`当前使用的框架插件和依赖均为最新版本`)
+    loading.succeed(`everything is up to date`)
   } else {
-    loading.succeed(`更新完成`)
+    loading.succeed(`update successfully`)
   }
 
   return true
 }
 
 update.help = `
-      update\t更新框架和依赖`
+      update\tupdate dependencies (and plugin)`

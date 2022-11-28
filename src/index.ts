@@ -11,11 +11,11 @@ const pkg = require(path.join(__dirname, '../package.json'))
 const args = minimist(process.argv.slice(2))
 const inputCmd: string | undefined = args._[0]
 
-const Head = `KiviBot CLI v${pkg.version ?? '未知'}\n\n`
-const HelpHead = `用法：kivi <命令> [选项]\n\n命令：`
+const Head = `KiviBot CLI v${pkg.version ?? 'unknown'}\n\n`
+const HelpHead = `Usage：kivi <cmd> [option]\n\nCommands：`
 
 export const exitHandler = () => {
-  process.stdout.write(colors.yellow('\n已退出 KiviBot CLI'))
+  process.stdout.write(colors.yellow('\nExit KiviBot CLI'))
   process.exit(0)
 }
 

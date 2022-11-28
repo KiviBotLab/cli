@@ -20,4 +20,4 @@ export async function start() {
 }
 
 start.help = `
-      start\t启动框架`
+      start\tboot KivBot using \`kivi.json\``

@@ -41,70 +41,63 @@ const questions: PromptObject[] = [
   {
     name: 'account',
     type: 'text',
-    message: '请输入 Bot QQ 账号',
+    message: 'Bot account',
     validate: (input) => {
-      return /^[1-9]\d{4,9}$/.test(input.trim()) ? true : '账号格式错误，请检查'
+      return /^[1-9]\d{4,9}$/.test(input.trim()) ? true : 'bad account'
     },
     format: (e) => Number(e.trim())
   },
   {
     name: 'platform',
     type: 'select',
-    message: '请选择登录协议 (按 ↑/↓)',
+    message: 'select platform',
     initial: 0,
     choices: [
       {
-        title: 'iPad（推荐）',
-        value: 5,
-        description: '平板协议不与手机电脑冲突，可同时在线，不会挤掉手机电脑'
+        title: 'iPad',
+        value: 5
       },
       {
-        title: '安卓手机（推荐）',
-        value: 1,
-        description: '占用手机设备，会挤掉手机登录，无法通过手机QQ登录机器人帐号'
+        title: 'aPhone',
+        value: 1
       },
       {
-        title: '安卓平板',
-        value: 2,
-        description: '平板协议不与手机电脑冲突，可同时在线，不会挤掉手机电脑'
+        title: 'APad',
+        value: 2
       },
       {
         title: 'MacOS',
-        value: 4,
-        description: '占用电脑设备，会挤掉电脑登录，无法通过电脑QQ登录机器人帐号'
+        value: 4
       },
       {
-        title: '安卓手表',
-        value: 3,
-        description: '不推荐，虽然不与手机电脑冲突，但是功能有阉割'
+        title: 'aWatch',
+        value: 3
       }
     ]
   },
   {
     name: 'admins',
     type: 'list',
-    message: '请输入 Bot 管理员 QQ',
+    message: 'Bot admins',
     separator: ' ',
     format: (list: string[]) => [...new Set(list.filter((e) => !!e).map(Number))],
     validate: (list: string) => {
-      return /^[1-9]\d{4,9}(\s+[1-9]\d{4,9})*$/.test(list.trim()) ? true : '账号格式错误，请检查'
+      return /^[1-9]\d{4,9}(\s+[1-9]\d{4,9})*$/.test(list.trim()) ? true : 'bad admin account'
     }
   },
   {
     name: 'login_mode',
     type: 'select',
-    message: '请选择登录模式 (按 ↑/↓)',
+    message: 'select login mode',
     initial: 0,
     choices: [
       {
-        title: '密码登录（推荐）',
-        value: 'password',
-        description: '可绕过扫码出现网络环境异常的问题'
+        title: 'password',
+        value: 'password'
       },
       {
-        title: '扫码登录',
-        value: 'qrcode',
-        description: '在服务器上远程扫码可能会报环境异常'
+        title: 'qrcode',
+        value: 'qrcode'
       }
     ]
   },
@@ -113,10 +106,10 @@ const questions: PromptObject[] = [
     type: (login_mode) => {
       return login_mode === 'password' ? 'text' : null
     },
-    message: '请输入 Bot 账号密码',
+    message: 'Bot password',
     style: 'password',
     validate: (password) => {
-      return /^.{6,16}$/.test(password.trim()) ? true : '密码格式错误，请检查'
+      return /^.{6,16}$/.test(password.trim()) ? true : 'bad password'
     },
     format: (password) => password.trim()
   },
@@ -126,17 +119,15 @@ const questions: PromptObject[] = [
       return prev === 'qrcode' ? null : 'select'
     },
     initial: 0,
-    message: '请选择设备锁验证模式 (按 ↑/↓)',
+    message: 'select device mode',
     choices: [
       {
-        title: '短信验证',
-        value: 'sms',
-        description: '需要使用绑定的手机号接收短信验证码'
+        title: 'SMS',
+        value: 'sms'
       },
       {
-        title: '扫码验证',
-        value: 'qrcode',
-        description: '在服务器上远程扫码可能会报环境异常'
+        title: 'qrcode',
+        value: 'qrcode'
       }
     ]
   }
@@ -149,7 +140,7 @@ export async function init(args: ParsedArgs) {
   const needStart = args.start
 
   if (!isForce && fs.existsSync(ConfPath)) {
-    notice.warn('配置文件 `kivi.json` 已存在，覆盖请加上 `--force` 标志')
+    notice.warn('`kivi.json` already exists, use `--force` to cover')
     process.exit(0)
   }
 
@@ -159,7 +150,7 @@ export async function init(args: ParsedArgs) {
   answer.device_mode ??= 'sms'
 
   if (!answer.login_mode || (answer.login_mode === 'password' && !answer.password)) {
-    notice.warn('已退出 KiviBot CLI')
+    notice.warn('Exit KiviBot CLI')
     process.exit(0)
   }
 
@@ -181,8 +172,10 @@ export async function init(args: ParsedArgs) {
   writeFileSync(AppPath, "require('@kivibot/core').start()")
   writeFileSync(PkgPath, pkg_template)
 
+  const files = ['kivi.json', 'app.js', 'package.json']
+
   if (isOK) {
-    notice.success(`已创建文件 ${colors.cyan(`kivi.json`)}， ${colors.cyan(`app.js`)}`)
+    notice.success(`create files ${colors.cyan(files.join(', '))}`)
 
     if (needInstall || needStart) {
       await installDependencies(kiviDeps)
@@ -193,13 +186,13 @@ export async function init(args: ParsedArgs) {
       await start()
     }
   } else {
-    notice.error('写出配置失败')
+    notice.error('faild to write config')
     process.exit(1)
   }
 }
 
 init.help = `
-      init\t初始化框架，引导生成账号配置文件`
+      init\tinit KiviBot, guide to generate config file`
 
 function writeKiviConf(conf: Record<string, any>) {
   try {

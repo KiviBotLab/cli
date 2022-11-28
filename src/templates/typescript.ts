@@ -1,7 +1,7 @@
 export const ts_config = `
 {
   "compilerOptions": {
-    "target": "ES2018",
+    "target": "ES2020",
     "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,

@@ -17,24 +17,24 @@ export async function installDependencies(_deps: string | string[] = []) {
   const modules = ensureArray(_deps)
 
   const cmd = `npm i ${modules.join(' ')} --registry=https://registry.npmmirror.com/`
-  const mds = modules.map((mod) => colors.cyan(mod)).join(', ')
+  const mds = colors.cyan(modules.map((mod) => mod).join(', '))
   const mdsStr = mds ? ` ${mds} ` : ''
 
-  loading.start(`正在安装${mdsStr.trimEnd()}`)
+  loading.start(`installing${mdsStr}`)
 
   const { stderr } = await promiseExec(cmd)
 
   if (stderr) {
     if (/npm ERR/i.test(String(stderr))) {
       loading.stop()
-      notice.warn(`${mdsStr.trimStart()}安装过程出现问题，npm 输出如下：`)
+      notice.warn(`faild to install${mdsStr}, npm output: `)
       console.log(stderr)
-      notice.error(`${mdsStr.trimStart()}安装失败`)
+      notice.error(`faild to install${mdsStr}`)
       return false
     }
   }
 
-  loading.succeed(`${mdsStr.trimStart()}安装完成`)
+  loading.succeed(`successfully install${mdsStr}`)
 
   return true
 }
@@ -45,4 +45,4 @@ export async function install(args: ParsedArgs) {
 }
 
 install.help = `
-      install\t安装框架核心依赖，可传入参数安装其他依赖`
+      install\tinstall core dependencies, optionally pass name to install`
