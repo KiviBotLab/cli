@@ -23,7 +23,11 @@ export async function update() {
   loading.start(`checking update for kiviBot CLI...`)
   const lv = await getLatestVersion('kivibot')
 
+  const promiseExec = promisify(exec)
+
   if (lv !== getCliVersion()) {
+    await promiseExec('npx ncu -u -g kivibot')
+
     loading.stop()
 
     const updateCmd = 'npm up -g kivibot --registry=https://registry.npmmirror.com'
@@ -32,9 +36,10 @@ export async function update() {
     console.log(colors.cyan(updateCmd))
   }
 
-  loading.start(`updating...`)
+  loading.start(`updating dependencies...`)
 
-  const promiseExec = promisify(exec)
+  await promiseExec('npx ncu -u @kivibot/core kivibot-plugin-*')
+
   const cmd = `npm up --registry=https://registry.npmmirror.com`
   const { stderr, stdout } = await promiseExec(cmd)
 
@@ -47,7 +52,7 @@ export async function update() {
     }
   }
 
-  if (/up\sto\sdate/.test(stdout)) {
+  if (/up to date/.test(stdout)) {
     loading.succeed(`everything is up to date`)
   } else {
     loading.succeed(`update successfully`)
@@ -57,4 +62,4 @@ export async function update() {
 }
 
 update.help = `
-      update\tupdate dependencies (and plugin)`
+      update\tupdate dependencies (and plugins)`

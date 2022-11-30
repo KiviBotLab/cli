@@ -10,17 +10,18 @@ import type { ParsedArgs } from 'minimist'
 
 const loading = ora()
 
-export const kiviDeps = ['@kivibot/core', 'axios', 'node-cron']
+export const kiviDeps = ['@kivibot/core', 'axios', 'node-cron', 'npm-check-updates']
 
 export async function installDependencies(_deps: string | string[] = []) {
   const promiseExec = promisify(exec)
   const modules = ensureArray(_deps)
 
-  const cmd = `npm i ${modules.join(' ')} --registry=https://registry.npmmirror.com/`
   const mds = colors.cyan(modules.map((mod) => mod).join(', '))
   const mdsStr = mds ? ` ${mds} ` : ''
 
   loading.start(`installing${mdsStr}`)
+
+  const cmd = `npm i ${modules.join(' ')} --registry=https://registry.npmmirror.com/`
 
   const { stderr } = await promiseExec(cmd)
 

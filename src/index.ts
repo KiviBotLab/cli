@@ -38,7 +38,7 @@ const cli = async () => {
       if (res instanceof Promise) await res
     } catch (e) {
       console.log(e)
-      console.log(colors.red('Error Occured !'))
+      console.log(colors.red('Error occured! Check the logs above.'))
     }
   }
 }

@@ -1,6 +1,5 @@
 import os from 'node:os'
 import path from 'node:path'
-import { execSync } from 'node:child_process'
 import { notice } from './notice'
 import { colors } from './colors'
 
