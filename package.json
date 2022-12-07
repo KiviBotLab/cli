@@ -1,9 +1,9 @@
 {
   "name": "kivibot",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Command line tool for KiviBot.",
   "repository": "KiviBotLab/cli",
-  "homepage": "https://github.com/KiviBotLab/cli#readme",
+  "homepage": "https://beta.kivibot.com/",
   "bin": {
     "kivi": "bin/kivi",
     "kivibot": "bin/kivi"
@@ -34,7 +34,7 @@
   "author": "Viki <hi@viki.moe> (https://github.com/vikiboss)",
   "license": "MIT",
   "devDependencies": {
-    "@kivibot/core": "^0.1.2",
+    "@kivibot/core": "latest",
     "@types/fs-extra": "^9.0.13",
     "@types/minimist": "^1.2.2",
     "@types/node": "^18.11.9",
@@ -50,10 +50,11 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
+    "axios": "^1.2.1",
     "fast-glob": "^3.2.12",
     "fs-extra": "^10.1.0",
-    "got": "^11",
     "minimist": "^1.2.7",
+    "npm-check-updates": "^16.5.0",
     "ora": "^5",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2"

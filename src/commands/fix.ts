@@ -1,11 +1,11 @@
+import { writeJsonSync } from 'fs-extra'
 import fg from 'fast-glob'
 import path from 'node:path'
 
+import { CWD } from '@/path'
 import { notice } from '@/utils/notice'
 
 import type { ParsedArgs } from 'minimist'
-import { CWD } from '@/path'
-import { writeJsonSync } from 'fs-extra'
 
 function shuffleString(str: string) {
   return str
@@ -16,9 +16,10 @@ function shuffleString(str: string) {
 
 export async function fix(args: ParsedArgs) {
   const device = args.device
+  const deviceFile = args.deviceFile
 
   if (device) {
-    const oicqDevicePath = (await fg('data/oicq/*/*.json'))?.[0]
+    const oicqDevicePath = deviceFile || (await fg('data/oicq/*/*.json'))?.[0]
 
     if (!oicqDevicePath) {
       notice.error('device file not found')
@@ -39,4 +40,4 @@ export async function fix(args: ParsedArgs) {
 }
 
 fix.help = `
-      fix\tfix command，--device modify device IMEI`
+      fix\tfix command to solve certain problems`

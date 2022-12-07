@@ -27,10 +27,10 @@ export const create = async (args: ParsedArgs) => {
     {
       type: 'select',
       name: 'lang',
-      message: 'develop language（press ↑/↓）',
+      message: 'develop language',
       choices: [
-        { title: 'JavaScript', description: 'use JavaScript to develop plugin', value: 'JS' },
-        { title: 'TypeScript', description: 'use TypeScript to develop plugin', value: 'TS' }
+        { title: 'JavaScript', value: 'JS' },
+        { title: 'TypeScript', value: 'TS' }
       ],
       initial: 0
     },
@@ -58,15 +58,15 @@ export const create = async (args: ParsedArgs) => {
     if (cover) {
       fs.removeSync(pluginDirPath)
 
-      notice.info(`Delete: ${pluginDirPath}`)
+      notice.info(`delete: ${pluginDirPath}`)
     } else {
-      notice.success('Cancelled')
+      notice.success('cancelled')
       process.exit(0)
     }
   }
 
   // 确保插件目录存在
-  fs.mkdirSync(pluginDirPath)
+  fs.ensureDirSync(pluginDirPath)
 
   if (lang === 'TS') {
     try {
@@ -93,4 +93,4 @@ export const create = async (args: ParsedArgs) => {
 }
 
 create.help = `
-      create\tcreate plugin develop template`
+      create\tcreate plugin template (JS/TS)`

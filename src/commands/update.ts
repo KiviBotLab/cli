@@ -1,10 +1,13 @@
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
-import got from 'got'
+import axios from 'axios'
+import ncu from 'npm-check-updates'
 import ora from 'ora'
+import path from 'node:path'
 
-import { getCliVersion } from '@/utils/versionCheck'
 import { colors } from '@/utils/colors'
+import { CWD } from '@/path'
+import { getCliVersion } from '@/utils/versionCheck'
 import { notice } from '@/utils/notice'
 
 const loading = ora()
@@ -13,7 +16,7 @@ async function getLatestVersion(module: string) {
   const api = `https://registry.npmmirror.com/${module}`
   const accept = 'application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*'
 
-  const data = (await got(api, { headers: { accept } }).json()) as any
+  const { data } = await axios.get(api, { headers: { accept } })
   const vs = Object.keys(data?.versions)
 
   return vs.length ? vs[vs.length - 1] : ''
@@ -26,8 +29,6 @@ export async function update() {
   const promiseExec = promisify(exec)
 
   if (lv !== getCliVersion()) {
-    await promiseExec('npx ncu -u -g kivibot')
-
     loading.stop()
 
     const updateCmd = 'npm up -g kivibot --registry=https://registry.npmmirror.com'
@@ -38,28 +39,42 @@ export async function update() {
 
   loading.start(`updating dependencies...`)
 
-  await promiseExec('npx ncu -u @kivibot/core kivibot-plugin-*')
+  try {
+    const upInfo = await ncu({
+      packageFile: path.join(CWD, 'package.json'),
+      filter: ['@kivibot/*', 'kivibot', 'kivibot-*'],
+      upgrade: true,
+      jsonUpgraded: true,
+      registry: 'https://registry.npmmirror.com'
+    })
 
-  const cmd = `npm up --registry=https://registry.npmmirror.com`
-  const { stderr, stdout } = await promiseExec(cmd)
+    const npmUpCmd = `npm up --registry=https://registry.npmmirror.com`
 
-  if (stderr) {
-    if (/npm ERR/i.test(String(stderr))) {
-      loading.fail(`error occurred：`)
-      console.log(stderr)
-      loading.succeed(`update faild`)
-      return false
+    const { stderr } = await promiseExec(npmUpCmd)
+
+    if (stderr) {
+      if (/npm ERR/i.test(String(stderr))) {
+        loading.fail(`error occurred：`)
+        console.log(stderr)
+        loading.succeed(`update faild`)
+
+        return false
+      }
     }
-  }
 
-  if (/up to date/.test(stdout)) {
-    loading.succeed(`everything is up to date`)
-  } else {
-    loading.succeed(`update successfully`)
-  }
+    if (upInfo) {
+      const info = Object.entries(upInfo)
+        .map((k, v) => `${k} => ${v}`)
+        .join('\n')
 
-  return true
+      loading.succeed(info || 'everything is up to date')
+    }
+  } catch (e) {
+    loading.fail(`error occurred：`)
+    console.log(e)
+    loading.succeed(`update faild`)
+  }
 }
 
 update.help = `
-      update\tupdate dependencies (and plugins)`
+      update\tupdate KiviBot and plugins`

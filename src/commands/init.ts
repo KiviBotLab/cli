@@ -50,7 +50,7 @@ const questions: PromptObject[] = [
   {
     name: 'platform',
     type: 'select',
-    message: 'select platform',
+    message: 'platform',
     initial: 0,
     choices: [
       {
@@ -88,7 +88,7 @@ const questions: PromptObject[] = [
   {
     name: 'login_mode',
     type: 'select',
-    message: 'select login mode',
+    message: 'login mode',
     initial: 0,
     choices: [
       {
@@ -119,7 +119,7 @@ const questions: PromptObject[] = [
       return prev === 'qrcode' ? null : 'select'
     },
     initial: 0,
-    message: 'select device mode',
+    message: 'device mode',
     choices: [
       {
         title: 'SMS',
@@ -140,7 +140,7 @@ export async function init(args: ParsedArgs) {
   const needStart = args.start
 
   if (!isForce && fs.existsSync(ConfPath)) {
-    notice.warn('`kivi.json` already exists, use `--force` to cover')
+    notice.warn('`kivi.json` already exists, use `--force` flag to cover')
     process.exit(0)
   }
 
@@ -150,7 +150,7 @@ export async function init(args: ParsedArgs) {
   answer.device_mode ??= 'sms'
 
   if (!answer.login_mode || (answer.login_mode === 'password' && !answer.password)) {
-    notice.warn('Exit KiviBot CLI')
+    notice.warn('exit KiviBot CLI')
     process.exit(0)
   }
 

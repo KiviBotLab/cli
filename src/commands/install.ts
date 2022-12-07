@@ -10,7 +10,7 @@ import type { ParsedArgs } from 'minimist'
 
 const loading = ora()
 
-export const kiviDeps = ['@kivibot/core', 'axios', 'node-cron', 'npm-check-updates']
+export const kiviDeps = ['@kivibot/core']
 
 export async function installDependencies(_deps: string | string[] = []) {
   const promiseExec = promisify(exec)
@@ -46,4 +46,4 @@ export async function install(args: ParsedArgs) {
 }
 
 install.help = `
-      install\tinstall core dependencies, optionally pass name to install`
+      install\tinstall dependencies`

@@ -20,4 +20,4 @@ export async function start() {
 }
 
 start.help = `
-      start\tboot KivBot using \`kivi.json\``
+      start\tboot KiviBot using \`kivi.json\``
