@@ -1,5 +1,3 @@
-import { exec } from 'node:child_process'
-import { promisify } from 'node:util'
 import axios from 'axios'
 import ncu from 'npm-check-updates'
 import ora from 'ora'
@@ -9,6 +7,7 @@ import { colors } from '@/utils/colors'
 import { CWD } from '@/path'
 import { getCliVersion } from '@/utils/versionCheck'
 import { notice } from '@/utils/notice'
+import { promiseExec } from '@/utils/promiseExec'
 
 const loading = ora()
 
@@ -25,8 +24,6 @@ async function getLatestVersion(module: string) {
 export async function update() {
   loading.start(`checking update for kiviBot CLI...`)
   const lv = await getLatestVersion('kivibot')
-
-  const promiseExec = promisify(exec)
 
   if (lv !== getCliVersion()) {
     loading.stop()

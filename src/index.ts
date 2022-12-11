@@ -24,6 +24,10 @@ const cli = async () => {
   /** 捕获 Ctrl C 中断退出 */
   process.on('SIGINT', exitHandler)
 
+  if (args.v || args.version) {
+    return console.log(Head)
+  }
+
   if (!inputCmd || !Object.keys(cmds).includes(inputCmd)) {
     const helps = Object.values(cmds).map((e) => e.help)
 
