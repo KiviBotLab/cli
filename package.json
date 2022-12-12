@@ -1,12 +1,11 @@
 {
   "name": "kivibot",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Command line tool for KiviBot.",
   "repository": "KiviBotLab/cli",
   "homepage": "https://beta.kivibot.com/",
   "bin": {
-    "kivi": "bin/kivi",
-    "kivibot": "bin/kivi"
+    "kivi": "bin/kivi"
   },
   "prettier": "@vikiboss/prettier-config",
   "files": [

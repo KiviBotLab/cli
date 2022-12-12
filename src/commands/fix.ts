@@ -22,7 +22,7 @@ export async function fix(args: ParsedArgs) {
     const oicqDevicePath = deviceFile || (await fg('data/oicq/*/*.json'))?.[0]
 
     if (!oicqDevicePath) {
-      notice.error('device file not found')
+      notice.error('设备文件不存在')
       process.exit(1)
     }
 
@@ -32,12 +32,12 @@ export async function fix(args: ParsedArgs) {
       const config = require(filePath)
       writeJsonSync(filePath, { ...config, imei: shuffleString(config?.imei || '') }, { spaces: 2 })
 
-      notice.success('IMEI has been modified successfullly')
+      notice.success('成功修改设备描述文件的 IMEI')
     } catch {
-      notice.error('faild to read device config file')
+      notice.error('设备描述文件修改失败')
     }
   }
 }
 
 fix.help = `
-      fix\tfix command to solve certain problems`
+      fix\t修复特定问题，--device 生成新 IMEI`

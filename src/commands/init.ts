@@ -41,36 +41,36 @@ const questions: PromptObject[] = [
   {
     name: 'account',
     type: 'text',
-    message: 'Bot account',
+    message: 'Bot QQ 账号',
     validate: (input) => {
-      return /^[1-9]\d{4,9}$/.test(input.trim()) ? true : 'bad account'
+      return /^[1-9]\d{4,9}$/.test(input.trim()) ? true : '无效的 QQ 账号'
     },
     format: (e) => Number(e.trim())
   },
   {
     name: 'platform',
     type: 'select',
-    message: 'platform',
+    message: '登录协议',
     initial: 0,
     choices: [
       {
-        title: 'iPad',
+        title: 'iPad（苹果平板，推荐，可多设备同时在线）',
         value: 5
       },
       {
-        title: 'aPhone',
+        title: 'aPhone（安卓手机）',
         value: 1
       },
       {
-        title: 'APad',
+        title: 'APad（安卓平板）',
         value: 2
       },
       {
-        title: 'MacOS',
+        title: 'MacOS（苹果电脑）',
         value: 4
       },
       {
-        title: 'aWatch',
+        title: 'aWatch（安卓手表）',
         value: 3
       }
     ]
@@ -78,25 +78,25 @@ const questions: PromptObject[] = [
   {
     name: 'admins',
     type: 'list',
-    message: 'Bot admins',
+    message: 'Bot 管理员',
     separator: ' ',
     format: (list: string[]) => [...new Set(list.filter((e) => !!e).map(Number))],
     validate: (list: string) => {
-      return /^[1-9]\d{4,9}(\s+[1-9]\d{4,9})*$/.test(list.trim()) ? true : 'bad admin account'
+      return /^[1-9]\d{4,9}(\s+[1-9]\d{4,9})*$/.test(list.trim()) ? true : '无效的管理员 QQ 账号'
     }
   },
   {
     name: 'login_mode',
     type: 'select',
-    message: 'login mode',
+    message: '登录模式',
     initial: 0,
     choices: [
       {
-        title: 'password',
+        title: '密码登录（推荐服务器使用）',
         value: 'password'
       },
       {
-        title: 'qrcode',
+        title: '扫码登录（存在 IP 限制，推荐本地使用）',
         value: 'qrcode'
       }
     ]
@@ -106,10 +106,10 @@ const questions: PromptObject[] = [
     type: (login_mode) => {
       return login_mode === 'password' ? 'text' : null
     },
-    message: 'Bot password',
+    message: 'Bot 账号密码',
     style: 'password',
     validate: (password) => {
-      return /^.{6,16}$/.test(password.trim()) ? true : 'bad password'
+      return /^.{6,16}$/.test(password.trim()) ? true : '无效的密码'
     },
     format: (password) => password.trim()
   },
@@ -119,14 +119,14 @@ const questions: PromptObject[] = [
       return prev === 'qrcode' ? null : 'select'
     },
     initial: 0,
-    message: 'device mode',
+    message: '设备锁验证模式',
     choices: [
       {
-        title: 'SMS',
+        title: '短信验证码',
         value: 'sms'
       },
       {
-        title: 'qrcode',
+        title: '二维码',
         value: 'qrcode'
       }
     ]
@@ -140,7 +140,7 @@ export async function init(args: ParsedArgs) {
   const needStart = args.start
 
   if (!isForce && fs.existsSync(ConfPath)) {
-    notice.warn('`kivi.json` already exists, use `--force` flag to cover')
+    notice.warn('配置文件 `kivi.json` 已存在，加上 `--force` 进行覆盖')
     process.exit(0)
   }
 
@@ -150,7 +150,7 @@ export async function init(args: ParsedArgs) {
   answer.device_mode ??= 'sms'
 
   if (!answer.login_mode || (answer.login_mode === 'password' && !answer.password)) {
-    notice.warn('exit KiviBot CLI')
+    notice.warn('退出 KiviBot CLI')
     process.exit(0)
   }
 
@@ -175,7 +175,7 @@ export async function init(args: ParsedArgs) {
   const files = ['kivi.json', 'app.js', 'package.json']
 
   if (isOK) {
-    notice.success(`create files ${colors.cyan(files.join(', '))}`)
+    notice.success(`创建文件: ${colors.cyan(files.join(', '))}`)
 
     if (needInstall || needStart) {
       await installDependencies(kiviDeps)
@@ -186,13 +186,13 @@ export async function init(args: ParsedArgs) {
       await start()
     }
   } else {
-    notice.error('faild to write config')
+    notice.error('配置文件和入口文件写入失败')
     process.exit(1)
   }
 }
 
 init.help = `
-      init\tinit KiviBot, guide to generate config file`
+      init\t初始化框架，引导生成配置文件和入口文件`
 
 function writeKiviConf(conf: Record<string, any>) {
   try {

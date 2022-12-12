@@ -12,11 +12,11 @@ const pkg = require(path.join(__dirname, '../package.json'))
 const args = minimist(process.argv.slice(2))
 const inputCmd: string | undefined = args._[0]
 
-const Head = `KiviBot CLI v${pkg.version ?? 'unknown'}\n\n`
-const HelpHead = `Usage：kivi <cmd> [option]\n\nCommands：`
+const Head = `KiviBot CLI v${pkg.version}\n\n`
+const HelpHead = `用法：kivi <命令> [选项]\n\n命令列表：`
 
 export const exitHandler = () => {
-  process.stdout.write(colors.yellow('\nexit KiviBot CLI'))
+  process.stdout.write(colors.yellow('\n已退出 KiviBot CLI'))
   process.exit(0)
 }
 
@@ -25,13 +25,13 @@ const cli = async () => {
   process.on('SIGINT', exitHandler)
 
   if (args.v || args.version) {
-    return console.log(Head)
+    return console.log(pkg.version)
   }
 
   if (!inputCmd || !Object.keys(cmds).includes(inputCmd)) {
     const helps = Object.values(cmds).map((e) => e.help)
 
-    console.log(Head + HelpHead + helps.join(''))
+    console.log('\n' + Head + HelpHead + helps.join('') + '\n')
   } else {
     try {
       args._.shift()
@@ -45,7 +45,7 @@ const cli = async () => {
       if (res instanceof Promise) await res
     } catch (e) {
       console.log(e)
-      notice.error('error occured! check the logs above.')
+      notice.error('CLI 执行遇到错误，参考上面输出的日志')
     }
   }
 }

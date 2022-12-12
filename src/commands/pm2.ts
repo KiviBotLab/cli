@@ -1,12 +1,17 @@
+import { spawn } from 'node:child_process'
+
 import { checkModule } from '@/utils/checkModule'
 import { getCurrentAccount } from '@/utils/getCurrentAccount'
 import { installDependencies } from './install'
+import { notice } from '@/utils/notice'
+import { promiseExec } from '@/utils/promiseExec'
 
 import type { ParsedArgs } from 'minimist'
-import { promiseExec } from '@/utils/promiseExec'
-import { notice } from '@/utils/notice'
+import { exitHandler } from '..'
 
-async function pm2(operation: 'start' | 'stop' | 'delete' | 'log', force = false) {
+type Operation = 'start' | 'stop' | 'delete' | 'log'
+
+async function pm2(operation: Operation, force = false) {
   if (!checkModule('pm2')) {
     await installDependencies('pm2')
   }
@@ -20,37 +25,79 @@ async function pm2(operation: 'start' | 'stop' | 'delete' | 'log', force = false
 
   try {
     await promiseExec(pm2Args.join(' '))
-  } catch {}
+    return true
+  } catch (e: unknown) {
+    console.log(((e as any)?.stderr || e).trim())
+    return false
+  }
+}
 
-  const opt = operation === 'start' ? 'deploy' : operation
+async function pm2Spawn(opt = 'log') {
+  if (!checkModule('pm2')) {
+    await installDependencies('pm2')
+  }
 
-  notice.info(`${opt} KiviBot successfully via pm2`)
+  process.off('SIGINT', exitHandler)
+
+  const account = opt === 'log' ? getCurrentAccount() : ''
+
+  const pm2 = spawn('npx', ['pm2', opt, account], { stdio: 'inherit' })
+
+  pm2.on('error', (err) => console.error(err))
+
+  pm2.stdout?.on('data', (data) => console.log(data.toString()))
+  pm2.stderr?.on('data', (data) => console.error(data.toString()))
 }
 
 export async function deploy(args: ParsedArgs) {
-  await pm2('start', args.f)
+  const res = await pm2('start', args.f)
+
+  if (res) {
+    notice.info(`已尝试使用 pm2 将 KiviBot 进程部署在后台`)
+  } else {
+    notice.error(`操作失败，参考上面的错误日志`)
+  }
 }
 
 deploy.help = `
-      deploy\tdeploy KiviBot in background using pm2`
+      deploy\t使用 pm2 将 KiviBot 进程部署在后台`
 
 export async function stop(args: ParsedArgs) {
-  await pm2('stop', args.f)
+  const res = await pm2('stop', args.f)
+
+  if (res) {
+    notice.info(`已尝试停止 pm2 的 KiviBot 后台进程`)
+  } else {
+    notice.error(`操作失败，参考上面的错误日志`)
+  }
 }
 
 stop.help = `
-      stop\tstop KiviBot background pm2 process`
+      stop\t停止 pm2 后台的 KiviBot 进程`
 
-export async function log(args: ParsedArgs) {
-  await pm2('log', args.f)
+export async function log() {
+  await pm2Spawn()
 }
 
 log.help = `
-      log\tview KiviBot background log using pm2`
+      log\t查看 pm2 后台的 KiviBot 日志`
 
 export async function del(args: ParsedArgs) {
-  await pm2('delete', args.f)
+  const res = await pm2('delete', args.f)
+
+  if (res) {
+    notice.info(`已尝试删除 pm2 的 KiviBot 后台进程`)
+  } else {
+    notice.error(`操作失败，参考上面的错误日志`)
+  }
 }
 
 del.help = `
-      del\tdelete KiviBot background pm2 process`
+      del\t删除 pm2 后台的 KiviBot 进程`
+
+export async function list() {
+  await pm2Spawn('list')
+}
+
+list.help = `
+      list\t查看 pm2 后台进程列表`

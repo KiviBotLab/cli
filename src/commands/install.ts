@@ -10,7 +10,7 @@ import type { ParsedArgs } from 'minimist'
 
 const loading = ora()
 
-export const kiviDeps = ['@kivibot/core']
+export const kiviDeps = ['@kivibot/core@latest']
 
 export async function installDependencies(_deps: string | string[] = []) {
   const promiseExec = promisify(exec)
@@ -19,7 +19,7 @@ export async function installDependencies(_deps: string | string[] = []) {
   const mds = colors.cyan(modules.map((mod) => mod).join(', '))
   const mdsStr = mds ? ` ${mds} ` : ''
 
-  loading.start(`installing${mdsStr}`)
+  loading.start(`正在安装${mdsStr}`)
 
   const cmd = `npm i ${modules.join(' ')} --registry=https://registry.npmmirror.com/`
 
@@ -28,14 +28,14 @@ export async function installDependencies(_deps: string | string[] = []) {
   if (stderr) {
     if (/npm ERR/i.test(String(stderr))) {
       loading.stop()
-      notice.warn(`faild to install${mdsStr}, npm output: `)
+      notice.warn(`${mdsStr}安装失败，npm 输出如下: `)
       console.log(stderr)
-      notice.error(`faild to install${mdsStr}`)
+      notice.error(`${mdsStr}安装失败`)
       return false
     }
   }
 
-  loading.succeed(`successfully install${mdsStr}`)
+  loading.succeed(`${mdsStr}安装成功`)
 
   return true
 }
@@ -46,4 +46,4 @@ export async function install(args: ParsedArgs) {
 }
 
 install.help = `
-      install\tinstall dependencies`
+      install\t安装 node 依赖`

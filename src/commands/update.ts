@@ -22,7 +22,7 @@ async function getLatestVersion(module: string) {
 }
 
 export async function update() {
-  loading.start(`checking update for kiviBot CLI...`)
+  loading.start(`正在检查 KiviBot CLI 更新...`)
   const lv = await getLatestVersion('kivibot')
 
   if (lv !== getCliVersion()) {
@@ -30,11 +30,11 @@ export async function update() {
 
     const updateCmd = 'npm up -g kivibot --registry=https://registry.npmmirror.com'
 
-    notice.warn(colors.gray(`KiviBot ${lv} has published, update it via:`))
+    notice.warn(colors.gray(`KiviBot CLI ${lv} 已发布，你可以通过以下命令进行更新:`))
     console.log(colors.cyan(updateCmd))
   }
 
-  loading.start(`updating dependencies...`)
+  loading.start(`正在安装依赖...`)
 
   try {
     const upInfo = await ncu({
@@ -51,9 +51,9 @@ export async function update() {
 
     if (stderr) {
       if (/npm ERR/i.test(String(stderr))) {
-        loading.fail(`error occurred：`)
+        loading.fail(`发生错误：`)
         console.log(stderr)
-        loading.succeed(`update faild`)
+        loading.fail(`更新失败，参考上面的错误日志`)
 
         return false
       }
@@ -64,14 +64,14 @@ export async function update() {
         .map((k, v) => `${k} => ${v}`)
         .join('\n')
 
-      loading.succeed(info || 'everything is up to date')
+      loading.succeed(info || '已是最新')
     }
   } catch (e) {
-    loading.fail(`error occurred：`)
+    loading.fail(`发生错误：`)
     console.log(e)
-    loading.succeed(`update faild`)
+    loading.fail(`更新失败，参考上面的错误日志`)
   }
 }
 
 update.help = `
-      update\tupdate KiviBot and plugins`
+      update\t更新 KiviBot 框架和插件依赖`

@@ -21,13 +21,13 @@ export const create = async (args: ParsedArgs) => {
     {
       type: pluginName ? null : 'text',
       name: 'inputPluginName',
-      message: 'plugin name',
+      message: '插件名',
       initial: 'demo'
     },
     {
       type: 'select',
       name: 'lang',
-      message: 'develop language',
+      message: '开发语言',
       choices: [
         { title: 'JavaScript', value: 'JS' },
         { title: 'TypeScript', value: 'TS' }
@@ -37,7 +37,7 @@ export const create = async (args: ParsedArgs) => {
     {
       type: (pre) => (pre === 'TS' && !isTypescriptExist ? 'confirm' : null),
       name: 'needInstallTypescript',
-      message: 'need to install TypeScript for you?',
+      message: '未检测到 TS 依赖，是否要为你安装?',
       initial: true
     }
   ])
@@ -50,7 +50,7 @@ export const create = async (args: ParsedArgs) => {
       {
         type: 'confirm',
         name: 'cover',
-        message: `${pname} already exists, cover it？`,
+        message: `插件 ${pname} 已存在，是否覆盖？`,
         initial: false
       }
     ])
@@ -58,9 +58,9 @@ export const create = async (args: ParsedArgs) => {
     if (cover) {
       fs.removeSync(pluginDirPath)
 
-      notice.info(`delete: ${pluginDirPath}`)
+      notice.info(`已删除: ${pluginDirPath}`)
     } else {
-      notice.success('cancelled')
+      notice.success('已取消')
       process.exit(0)
     }
   }
@@ -73,7 +73,7 @@ export const create = async (args: ParsedArgs) => {
       fs.writeFileSync(path.join(pluginDirPath, 'index.ts'), ts_template)
       fs.writeFileSync(path.join(pluginDirPath, 'tsconfig.json'), ts_config)
     } catch {
-      notice.error('faild to wirte files')
+      notice.error('文件写入失败')
       process.exit(1)
     }
 
@@ -84,13 +84,13 @@ export const create = async (args: ParsedArgs) => {
     try {
       fs.writeFileSync(path.join(pluginDirPath, 'index.js'), js_template)
     } catch {
-      notice.error('faild to wirte files')
+      notice.error('文件写入失败')
       process.exit(1)
     }
   }
 
-  notice.success(`create: ${pluginDirPath}`)
+  notice.success(`已创建: ${pluginDirPath}`)
 }
 
 create.help = `
-      create\tcreate plugin template (JS/TS)`
+      create\t初始化插件开发模板 (JS/TS)`

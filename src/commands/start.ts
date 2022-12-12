@@ -20,4 +20,4 @@ export async function start() {
 }
 
 start.help = `
-      start\tboot KiviBot using \`kivi.json\``
+      start\t使用 \`kivi.json\` 配置文件启动 KiviBot`
