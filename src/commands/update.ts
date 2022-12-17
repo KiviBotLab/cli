@@ -12,7 +12,7 @@ import { promiseExec } from '@/utils/promiseExec'
 const loading = ora()
 
 async function getLatestVersion(module: string) {
-  const api = `https://registry.npmmirror.com/${module}`
+  const api = `https://registry.npmjs.org/${module}`
   const accept = 'application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*'
 
   const { data } = await axios.get(api, { headers: { accept } })
@@ -28,7 +28,7 @@ export async function update() {
   if (lv !== getCliVersion()) {
     loading.stop()
 
-    const updateCmd = 'npm up -g kivibot --registry=https://registry.npmmirror.com'
+    const updateCmd = 'npm up -g kivibot'
 
     notice.warn(colors.gray(`KiviBot CLI ${lv} 已发布，你可以通过以下命令进行更新:`))
     console.log(colors.cyan(updateCmd))
@@ -41,11 +41,10 @@ export async function update() {
       packageFile: path.join(CWD, 'package.json'),
       filter: ['@kivibot/*', 'kivibot', 'kivibot-*'],
       upgrade: true,
-      jsonUpgraded: true,
-      registry: 'https://registry.npmmirror.com'
+      jsonUpgraded: true
     })
 
-    const npmUpCmd = `npm up --registry=https://registry.npmmirror.com`
+    const npmUpCmd = `npm up`
 
     const { stderr } = await promiseExec(npmUpCmd)
 

@@ -1,15 +1,19 @@
+import os from 'node:os'
 import { spawn } from 'node:child_process'
 
 import { checkModule } from '@/utils/checkModule'
+import { exitHandler } from '@src'
 import { getCurrentAccount } from '@/utils/getCurrentAccount'
 import { installDependencies } from './install'
 import { notice } from '@/utils/notice'
 import { promiseExec } from '@/utils/promiseExec'
 
 import type { ParsedArgs } from 'minimist'
-import { exitHandler } from '..'
 
 type Operation = 'start' | 'stop' | 'delete' | 'log'
+
+const isWin = os.platform() === 'win32'
+const npx = isWin ? 'npx.cmd' : 'npx'
 
 async function pm2(operation: Operation, force = false) {
   if (!checkModule('pm2')) {
@@ -17,7 +21,7 @@ async function pm2(operation: Operation, force = false) {
   }
 
   const account = getCurrentAccount()
-  const pm2Args = ['npx', 'pm2', operation, 'app.js', '--name', account || 'KiviBot']
+  const pm2Args = [npx, 'pm2', operation, 'app.js', '--name', account]
 
   if (force) {
     pm2Args.push('-f')
@@ -40,8 +44,7 @@ async function pm2Spawn(opt = 'log') {
   process.off('SIGINT', exitHandler)
 
   const account = opt === 'log' ? getCurrentAccount() : ''
-
-  const pm2 = spawn('npx', ['pm2', opt, account], { stdio: 'inherit' })
+  const pm2 = spawn(npx, ['pm2', opt, account], { stdio: 'inherit' })
 
   pm2.on('error', (err) => console.error(err))
 
@@ -93,7 +96,7 @@ export async function del(args: ParsedArgs) {
 }
 
 del.help = `
-      del\t删除 pm2 后台的 KiviBot 进程`
+      del\t删除 pm2 后台的 KiviBot 进程，需先停止`
 
 export async function list() {
   await pm2Spawn('list')

@@ -21,7 +21,7 @@ export async function installDependencies(_deps: string | string[] = []) {
 
   loading.start(`正在安装${mdsStr}`)
 
-  const cmd = `npm i ${modules.join(' ')} --registry=https://registry.npmmirror.com/`
+  const cmd = `npm i ${modules.join(' ')}`
 
   const { stderr } = await promiseExec(cmd)
 
