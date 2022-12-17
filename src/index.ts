@@ -10,7 +10,8 @@ type Cmd = keyof typeof cmds
 
 const pkg = require(path.join(__dirname, '../package.json'))
 const args = minimist(process.argv.slice(2))
-const inputCmd: string | undefined = args._[0]
+const firstCmd: string | undefined = args._[0]
+const inputCmd = firstCmd === 'delete' ? 'del' : firstCmd
 
 const Head = `KiviBot CLI v${pkg.version}\n\n`
 const HelpHead = `用法：kivi <命令> [选项]\n\n命令列表：`

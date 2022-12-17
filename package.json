@@ -1,7 +1,7 @@
 {
   "name": "kivibot",
-  "version": "0.6.0",
-  "description": "Command line tool for KiviBot.",
+  "version": "0.6.1",
+  "description": "KiviBot 命令行工具",
   "repository": "KiviBotLab/cli",
   "homepage": "https://beta.kivibot.com/",
   "bin": {

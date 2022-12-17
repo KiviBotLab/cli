@@ -96,7 +96,7 @@ export async function del(args: ParsedArgs) {
 }
 
 del.help = `
-      del\t删除 pm2 后台的 KiviBot 进程，需先停止`
+      delete\t删除 pm2 后台的 KiviBot 进程，需先停止`
 
 export async function list() {
   await pm2Spawn('list')
