@@ -1,4 +1,4 @@
-import { writeJsonSync } from 'fs-extra'
+import { writeFileSync, writeJsonSync } from 'fs-extra'
 import fg from 'fast-glob'
 import path from 'node:path'
 
@@ -17,6 +17,7 @@ function shuffleString(str: string) {
 export async function fix(args: ParsedArgs) {
   const device = args.device
   const deviceFile = args.deviceFile
+  const registry = args.registry
 
   if (device) {
     const oicqDevicePath = deviceFile || (await fg('data/oicq/*/*.json'))?.[0]
@@ -37,7 +38,12 @@ export async function fix(args: ParsedArgs) {
       notice.error('设备描述文件修改失败')
     }
   }
+
+  if (registry) {
+    writeFileSync(path.join(CWD, '.npmrc'), 'registry=https://registry.npmmirror.com')
+    notice.success('已生成 npm 配置文件 `.npmrc` 并配置了镜像源')
+  }
 }
 
 fix.help = `
-      fix\t修复特定问题，--device 生成新 IMEI`
+      fix\t修复特定问题，--device 生成新 IMEI, --registry 使用镜像源`
