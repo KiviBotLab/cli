@@ -17,7 +17,7 @@ export async function installDependencies(_deps: string | string[] = []) {
   const modules = ensureArray(_deps)
 
   const mds = colors.cyan(modules.map((mod) => mod).join(', '))
-  const mdsStr = mds ? ` ${mds} ` : ''
+  const mdsStr = mds ? ` ${mds.replace('@latest', '')} ` : ''
 
   loading.start(`正在安装${mdsStr}`)
 
