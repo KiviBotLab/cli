@@ -34,7 +34,7 @@ export async function update() {
     console.log(colors.cyan(updateCmd))
   }
 
-  loading.start(`正在安装依赖...`)
+  loading.start(`正在更新依赖...`)
 
   try {
     const upInfo = await ncu({

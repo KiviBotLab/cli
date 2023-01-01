@@ -10,14 +10,14 @@ import type { ParsedArgs } from 'minimist'
 
 const loading = ora()
 
-export const kiviDeps = ['@kivibot/core@latest']
+export const kiviDeps = ['@kivibot/core']
 
 export async function installDependencies(_deps: string | string[] = []) {
   const promiseExec = promisify(exec)
   const modules = ensureArray(_deps)
 
   const mds = colors.cyan(modules.map((mod) => mod).join(', '))
-  const mdsStr = mds ? ` ${mds.replace('@latest', '')} ` : ''
+  const mdsStr = mds ? ` ${mds} ` : ''
 
   loading.start(`正在安装${mdsStr}`)
 
