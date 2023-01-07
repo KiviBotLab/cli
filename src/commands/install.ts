@@ -23,20 +23,24 @@ export async function installDependencies(_deps: string | string[] = []) {
 
   const cmd = `npm i ${modules.join(' ')}`
 
-  const { stderr } = await promiseExec(cmd)
+  try {
+    const { stderr } = await promiseExec(cmd)
 
-  if (stderr) {
-    if (/npm ERR/i.test(String(stderr))) {
-      loading.stop()
-      notice.warn(`${mdsStr}安装失败，npm 输出如下: `)
-      console.log(stderr)
-      notice.error(`${mdsStr}安装失败`)
-      return false
+    if (stderr) {
+      if (/npm ERR/i.test(String(stderr))) {
+        loading.stop()
+        notice.warn(`${mdsStr}安装失败，npm 输出如下: `)
+        console.log(stderr)
+        notice.error(`${mdsStr}安装失败`)
+        return false
+      }
     }
+  } catch (e) {
+    notice.error(`${mdsStr}安装失败`)
+    return false
   }
 
   loading.succeed(`${mdsStr}安装成功`)
-
   return true
 }
 

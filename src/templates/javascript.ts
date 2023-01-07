@@ -1,14 +1,20 @@
 export const js_template = `
-const { KiviPlugin, segment, http } = require('@kivibot/core')
+const { KiviPlugin, segment } = require('@kivibot/core')
 
-const plugin = new KiviPlugin('demo', '0.1.0')
+const { version } = require('./package.json')
+const plugin = new KiviPlugin('xxx', version)
 
-plugin.onMounted(() => {
-  plugin.onMessage(event => {
+const config = {}
+
+plugin.onMounted((bot, admins) => {
+  plugin.saveConfig(Object.assign(config, plugin.loadConfig()))
+
+  plugin.onMessage((event, bot) => {
     const { raw_message } = event
 
     if (raw_message === 'hello') {
       const msgs = [segment.face(66), 'world']
+
       event.reply(msgs)
     }
   })

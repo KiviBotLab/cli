@@ -13,16 +13,22 @@ export const ts_config = `
 `.trim()
 
 export const ts_template = `
-import { KiviPlugin, segment, http } from '@kivibot/core'
+import { KiviPlugin, segment } from '@kivibot/core'
 
-const plugin = new KiviPlugin('demo', '0.1.0')
+const { version } = require('./package.json')
+const plugin = new KiviPlugin('xxx', version)
 
-plugin.onMounted(() => {
-  plugin.onMessage(event => {
+const config = {}
+
+plugin.onMounted((bot, admins) => {
+  plugin.saveConfig(Object.assign(config, plugin.loadConfig()))
+
+  plugin.onMessage((event, bot) => {
     const { raw_message } = event
 
     if (raw_message === 'hello') {
       const msgs = [segment.face(66), 'world']
+
       event.reply(msgs)
     }
   })

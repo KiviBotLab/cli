@@ -2,7 +2,7 @@ import { writeFileSync, writeJsonSync } from 'fs-extra'
 import fg from 'fast-glob'
 import path from 'node:path'
 
-import { CWD } from '@/path'
+import { CWD, NpmConfPath } from '@/path'
 import { notice } from '@/utils/notice'
 
 import type { ParsedArgs } from 'minimist'
@@ -23,7 +23,7 @@ export async function fix(args: ParsedArgs) {
     const oicqDevicePath = deviceFile || (await fg('data/oicq/*/*.json'))?.[0]
 
     if (!oicqDevicePath) {
-      notice.error('设备文件不存在')
+      notice.error('设备文件不存在，请在框架目录下执行此命令（需启动过框架才会生成初始设备文件）')
       process.exit(1)
     }
 
@@ -40,10 +40,12 @@ export async function fix(args: ParsedArgs) {
   }
 
   if (registry) {
-    writeFileSync(path.join(CWD, '.npmrc'), 'registry=https://registry.npmmirror.com')
-    notice.success('已生成 npm 配置文件 `.npmrc` 并配置了镜像源')
+    writeFileSync(NpmConfPath, 'registry=https://registry.npmmirror.com')
+    notice.success('已在当前目录生成 `.npmrc` 并配置了国内镜像源')
   }
 }
 
+const tips = ['--device 生成新 IMEI', '--registry 使用镜像源']
+
 fix.help = `
-      fix\t修复特定问题，--device 生成新 IMEI, --registry 使用镜像源`
+      fix\t修复特定问题，${tips.join('，')}`

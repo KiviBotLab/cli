@@ -2,7 +2,7 @@ import minimist from 'minimist'
 import path from 'node:path'
 
 import { colors } from './utils/colors'
-import * as cmds from './commands'
+import { cmds } from './commands'
 import { versionCheck } from './utils/versionCheck'
 import { notice } from './utils/notice'
 
@@ -10,8 +10,7 @@ type Cmd = keyof typeof cmds
 
 const pkg = require(path.join(__dirname, '../package.json'))
 const args = minimist(process.argv.slice(2))
-const firstCmd: string | undefined = args._[0]
-const inputCmd = firstCmd === 'delete' ? 'del' : firstCmd
+const cmd: string | undefined = args._[0]
 
 const Head = `KiviBot CLI v${pkg.version}\n\n`
 const HelpHead = `用法：kivi <命令> [选项]\n\n命令列表：`
@@ -29,7 +28,7 @@ const cli = async () => {
     return console.log(pkg.version)
   }
 
-  if (!inputCmd || !Object.keys(cmds).includes(inputCmd)) {
+  if (!cmd || !Object.keys(cmds).includes(cmd)) {
     const helps = Object.values(cmds).map((e) => e.help)
 
     console.log('\n' + Head + HelpHead + helps.join('') + '\n')
@@ -41,7 +40,7 @@ const cli = async () => {
         versionCheck()
       }
 
-      const res = cmds[inputCmd as Cmd](args)
+      const res = cmds[cmd as Cmd](args)
 
       if (res instanceof Promise) await res
     } catch (e) {

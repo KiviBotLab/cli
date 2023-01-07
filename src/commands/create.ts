@@ -8,6 +8,7 @@ import { js_template } from '@/templates/javascript'
 import { notice } from '@/utils/notice'
 import { PluginDir } from '@/path'
 import { ts_config, ts_template } from '@/templates/typescript'
+import { pkg_js_template, pkg_ts_template } from '@/templates/package-json'
 
 import type { ParsedArgs } from 'minimist'
 
@@ -15,7 +16,7 @@ export const create = async (args: ParsedArgs) => {
   const pluginName = args._[0]
 
   // 当前 node_modules 目录下是否已存在 TS 依赖
-  const isTypescriptExist = checkModule('typescript')
+  const isTypeScriptExist = checkModule('typescript')
 
   const { lang, inputPluginName, needInstallTypescript } = await prompts([
     {
@@ -35,7 +36,7 @@ export const create = async (args: ParsedArgs) => {
       initial: 0
     },
     {
-      type: (pre) => (pre === 'TS' && !isTypescriptExist ? 'confirm' : null),
+      type: (pre) => (pre === 'TS' && !isTypeScriptExist ? 'confirm' : null),
       name: 'needInstallTypescript',
       message: '未检测到 TS 依赖，是否要为你安装?',
       initial: true
@@ -70,6 +71,8 @@ export const create = async (args: ParsedArgs) => {
 
   if (lang === 'TS') {
     try {
+      // 写入 pakcage.json
+      fs.writeFileSync(path.join(pluginDirPath, 'package.json'), pkg_ts_template)
       fs.writeFileSync(path.join(pluginDirPath, 'index.ts'), ts_template)
       fs.writeFileSync(path.join(pluginDirPath, 'tsconfig.json'), ts_config)
     } catch {
@@ -82,6 +85,8 @@ export const create = async (args: ParsedArgs) => {
     }
   } else if (lang === 'JS') {
     try {
+      // 写入 pakcage.json
+      fs.writeFileSync(path.join(pluginDirPath, 'package.json'), pkg_js_template)
       fs.writeFileSync(path.join(pluginDirPath, 'index.js'), js_template)
     } catch {
       notice.error('文件写入失败')
@@ -93,4 +98,4 @@ export const create = async (args: ParsedArgs) => {
 }
 
 create.help = `
-      create\t初始化插件开发模板 (JS/TS)`
+      create\t初始化插件开发模板 (JS/TS)，可选传入插件名`
