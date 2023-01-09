@@ -1,6 +1,6 @@
 {
   "name": "kivibot",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "KiviBot 命令行工具",
   "repository": "KiviBotLab/cli",
   "homepage": "https://beta.kivibot.com/",

@@ -147,7 +147,7 @@ export async function init(args: ParsedArgs) {
   const config: any = {}
 
   if (fs.existsSync(ConfPath)) {
-    if (!isForce || !isSwitch) {
+    if (!isForce && !isSwitch) {
       const tips = [
         '配置文件 `kivi.json` 已存在',
         '--switch 切换账号（保留插件和通知配置）',
